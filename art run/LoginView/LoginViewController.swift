@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
         _ = UIScreen.main.bounds.height
 
         // "Art Run" 로고
-        let logoLabel = UILabel(frame: CGRect(x: 20, y: 160, width: screenWidth - 40, height: 80))
+        let logoLabel = UILabel(frame: CGRect(x: 20, y: 150, width: screenWidth - 40, height: 80))
         logoLabel.textAlignment = .center
         logoLabel.font = UIFont.boldSystemFont(ofSize: 80)
         logoLabel.attributedText = getStyledLogoText()
