@@ -2,6 +2,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseCore
+
 // UIColor extension to support hex color codes
 extension UIColor {
     convenience init(hex: String) {
@@ -43,7 +44,14 @@ class LoginViewController: UIViewController {
 
     func setupUI() {
         let screenWidth = UIScreen.main.bounds.width
-        _ = UIScreen.main.bounds.height
+
+        // **1. 환영 메시지 추가**
+        let welcomeLabel = UILabel(frame: CGRect(x: 20, y: 100, width: screenWidth - 40, height: 50))
+        welcomeLabel.textAlignment = .center
+        welcomeLabel.font = UIFont.systemFont(ofSize: 24, weight: .medium)
+        welcomeLabel.textColor = UIColor.darkGray
+        welcomeLabel.text = "Welcome to Art Run!"
+        view.addSubview(welcomeLabel)
 
         // "Art Run" 로고
         let logoLabel = UILabel(frame: CGRect(x: 20, y: 150, width: screenWidth - 40, height: 80))
@@ -62,7 +70,7 @@ class LoginViewController: UIViewController {
         view.addSubview(passwordTextField)
 
         // 로그인 버튼
-        let loginButton = UIButton(frame: CGRect(x: 40, y: 470, width: screenWidth - 80, height: 50))
+        loginButton = UIButton(frame: CGRect(x: 40, y: 470, width: screenWidth - 80, height: 50))
         loginButton.setTitle("Login", for: .normal)
         loginButton.backgroundColor = UIColor(hex: "33CD5F")
         loginButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
@@ -75,35 +83,36 @@ class LoginViewController: UIViewController {
         signUpButton = UIButton(frame: CGRect(x: 40, y: 540, width: screenWidth - 80, height: 50))
         signUpButton.setTitle("Don't have an account? Sign up", for: .normal)
         signUpButton.setTitleColor(UIColor(hex: "888888"), for: .normal)
-        signUpButton.setTitleColor(UIColor(hex: "00A800"), for: .highlighted) // 버튼이 눌렸을 때 색 변경
         signUpButton.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        signUpButton.isUserInteractionEnabled = true // 사용자 상호작용 활성화
         signUpButton.addTarget(self, action: #selector(navigateToSignUp), for: .touchUpInside)
         view.addSubview(signUpButton)
 
-        // 소셜 버튼들
-        let twitterButton = UIButton(type: .system)
-        twitterButton.setImage(UIImage(systemName: "twitter"), for: .normal)
-
+        // **3. 소셜 로그인 버튼 추가**
         let googleButton = UIButton(type: .system)
-        googleButton.setImage(UIImage(systemName: "google"), for: .normal)
-
+        googleButton.setImage(UIImage(systemName: "globe"), for: .normal) // Google 아이콘 (예시용으로 globe 사용)
+        
         let facebookButton = UIButton(type: .system)
-        facebookButton.setImage(UIImage(systemName: "facebook"), for: .normal)
-
-        let socialStackView = UIStackView(arrangedSubviews: [twitterButton, googleButton, facebookButton])
+        facebookButton.setImage(UIImage(systemName: "f.square"), for: .normal) // Facebook 아이콘 (예시용으로 f.square 사용)
+        
+        let socialStackView = UIStackView(arrangedSubviews: [googleButton, facebookButton])
         socialStackView.axis = .horizontal
         socialStackView.spacing = 20
         socialStackView.alignment = .center
         socialStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         view.addSubview(socialStackView)
 
-        // 수정된 부분: socialStackView가 view에 추가된 후 제약 조건을 설정
+        // 소셜 버튼 제약 조건 설정
         NSLayoutConstraint.activate([
             socialStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             socialStackView.topAnchor.constraint(equalTo: signUpButton.bottomAnchor, constant: 20),
+            googleButton.widthAnchor.constraint(equalToConstant: 40),
+            googleButton.heightAnchor.constraint(equalToConstant: 40),
+            facebookButton.widthAnchor.constraint(equalToConstant: 40),
+            facebookButton.heightAnchor.constraint(equalToConstant: 40),
         ])
     }
+
     @objc func buttonHighlighted() {
         loginButton.backgroundColor = UIColor(hex: "28A745") // 터치 시 더 어두운 색으로 변경
     }
